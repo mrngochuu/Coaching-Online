@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+const app = createApp();
+app.config.productionTip = false;
+
+app.use(Antd);
 
 Vue.config.productionTip = false
 
