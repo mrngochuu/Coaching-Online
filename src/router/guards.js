@@ -29,7 +29,7 @@ const progressStart = (to, from, next) => {
 const loginGuard = (to, from, next, options) => {
   const {message} = options
   if (!loginIgnore.includes(to) && !checkAuthorization()) {
-    message.warning('登录已失效，请重新登录')
+    message.warning('Login has expired, please log in again!')
     next({path: '/login'})
   } else {
     next()
@@ -48,9 +48,8 @@ const authorityGuard = (to, from, next, options) => {
   const permissions = store.getters['account/permissions']
   const roles = store.getters['account/roles']
   if (!hasAuthority(to, permissions, roles)) {
-    message.warning(`对不起，您无权访问页面: ${to.fullPath}，请联系管理员`)
+    message.warning(`Sorry, you do not have permission to access the page: ${to.fullPath}，please contact the administrator!`)
     next({path: '/403'})
-    // NProgress.done()
   } else {
     next()
   }

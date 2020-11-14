@@ -113,7 +113,6 @@ export default {
       if (this.pageList.length === 1) {
         return this.$message.warning(this.$t('warn'))
       }
-      //清除缓存
       let index = this.pageList.findIndex(item => item.fullPath === key)
       this.clearCaches = this.pageList.splice(index, 1).map(page => page.cachedKey)
       if (next) {

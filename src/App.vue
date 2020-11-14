@@ -36,11 +36,11 @@ export default {
       this.setHtmlTitle()
     },
     'theme.mode': function(val) {
-      let closeMessage = this.$message.loading(`您选择了主题模式 ${val}, 正在切换...`)
+      let closeMessage = this.$message.loading(`You have selected a theme ${val}, switching...`)
       themeUtil.changeThemeColor(this.theme.color, val).then(closeMessage)
     },
     'theme.color': function(val) {
-      let closeMessage = this.$message.loading(`您选择了主题色 ${val}, 正在切换...`)
+      let closeMessage = this.$message.loading(`You have chosen a theme color ${val}, switching...`)
       themeUtil.changeThemeColor(val, this.theme.mode).then(closeMessage)
     }
   },
@@ -59,12 +59,6 @@ export default {
     setLanguage(lang) {
       this.$i18n.locale = lang
       switch (lang) {
-        case 'CN':
-          this.locale = require('ant-design-vue/es/locale-provider/zh_CN').default
-          break
-        case 'HK':
-          this.locale = require('ant-design-vue/es/locale-provider/zh_TW').default
-          break
         case 'US':
         default:
           this.locale = require('ant-design-vue/es/locale-provider/en_US').default
@@ -74,7 +68,7 @@ export default {
     setHtmlTitle() {
       const route = this.$route
       const key = route.path === '/' ? 'home.name' : getI18nKey(route.matched[route.matched.length - 1].path)
-      document.title = process.env.VUE_APP_NAME + ' | ' + this.$t(key)
+      document.title = 'Coaching Online' + ' | ' + this.$t(key)
     },
   }
 }

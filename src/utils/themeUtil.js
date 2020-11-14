@@ -74,11 +74,6 @@ function loadLocalTheme(localSetting) {
   }
 }
 
-/**
- * 获取本地保存的配置
- * @param load {boolean} 是否加载配置中的主题
- * @returns {Object}
- */
 function getLocalSetting(loadTheme) {
   let localSetting = {}
   try {

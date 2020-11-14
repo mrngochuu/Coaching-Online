@@ -4,12 +4,6 @@ import routesI18n from '@/router/i18n'
 import './Objects'
 import {getI18nKey} from '@/utils/routerUtil'
 
-/**
- * 创建 i18n 配置
- * @param locale 本地化语言
- * @param fallback 回退语言
- * @returns {VueI18n}
- */
 function initI18n(locale, fallback) {
   Vue.use(VueI18n)
   let i18nOptions = {
@@ -20,13 +14,6 @@ function initI18n(locale, fallback) {
   return new VueI18n(i18nOptions)
 }
 
-/**
- * 根据 router options 配置生成 国际化语言
- * @param lang
- * @param routes
- * @param valueKey
- * @returns {*}
- */
 function generateI18n(lang, routes, valueKey) {
   routes.forEach(route => {
     let keys = getI18nKey(route.fullPath).split('.')
@@ -54,17 +41,13 @@ function formatFullPath(routes, parentPath = '') {
   })
 }
 
-/**
- * 从路由提取国际化数据
- * @param i18n
- * @param routes
- */
 function mergeI18nFromRoutes(i18n, routes) {
   formatFullPath(routes)
-  const CN = generateI18n(new Object(), routes, 'name')
-  const US = generateI18n(new Object(), routes, 'path')
-  i18n.mergeLocaleMessage('CN', CN)
+  const US = generateI18n(new Object(), routes, 'name')
+  const CN = generateI18n(new Object(), routes, 'path')
+  
   i18n.mergeLocaleMessage('US', US)
+  i18n.mergeLocaleMessage('CN', CN)
   const messages = routesI18n.messages
   Object.keys(messages).forEach(lang => {
     i18n.mergeLocaleMessage(lang, messages[lang])

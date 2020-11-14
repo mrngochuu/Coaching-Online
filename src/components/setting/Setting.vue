@@ -135,7 +135,7 @@ export default {
   components: {ImgCheckboxGroup, ImgCheckbox, ColorCheckboxGroup, ColorCheckbox, SettingItem},
   data() {
     return {
-      copyConfig: 'Sorry, you have copied nothing O(∩_∩)O~',
+      copyConfig: 'Sorry, you have copied nothing',
       isDev: process.env.NODE_ENV === 'development'
     }
   },
@@ -156,30 +156,30 @@ export default {
     },
     copyCode () {
       let config = this.extractConfig(false)
-      this.copyConfig = `// 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
+      this.copyConfig = `// Custom configuration, reference ./default/setting.config.js，the attributes that need to be customized can be configured here
       module.exports = ${formatConfig(config)}
       `
       let clipboard = new Clipboard('#copyBtn')
       clipboard.on('success', () => {
-        this.$message.success(`复制成功，覆盖文件 src/config/config.js 然后重启项目即可生效`).then(() => {
+        this.$message.success(`Copy is successful, overwrite file src/config/config.js Then restart the project to take effect`).then(() => {
           const localConfig = localStorage.getItem(process.env.VUE_APP_SETTING_KEY)
           if (localConfig) {
-            console.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置')
-            this.$message.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置', 5)
+            console.warn('A locally saved theme configuration is detected, and you want to copy the configuration code to take effect, you may need to reset the configuration first')
+            this.$message.warn('A locally saved theme configuration is detected, and you want to copy the configuration code to take effect, you may need to reset the configuration first', 5)
           }
         })
         clipboard.destroy()
       })
     },
     saveSetting() {
-      const closeMessage = this.$message.loading('正在保存到本地，请稍后...', 0)
+      const closeMessage = this.$message.loading('Saving to local, please wait...', 0)
       const config = this.extractConfig(true)
       localStorage.setItem(process.env.VUE_APP_SETTING_KEY, JSON.stringify(config))
       setTimeout(closeMessage, 800)
     },
     resetSetting() {
       this.$confirm({
-        title: '重置主题会刷新页面，当前页面内容不会保留，确认重置？',
+        title: 'Resetting the theme will refresh the page, and the current page content will not be retained. Confirm to reset？',
         onOk() {
           localStorage.removeItem(process.env.VUE_APP_SETTING_KEY)
           window.location.reload()

@@ -4,17 +4,13 @@ import Router from 'vue-router'
 import deepMerge from 'deepmerge'
 import basicOptions from '@/router/async/config.async'
 
-//应用配置
 let appOptions = {
   router: undefined,
   i18n: undefined,
   store: undefined
 }
 
-/**
- * 设置应用配置
- * @param options
- */
+
 function setAppOptions(options) {
   const {router, store, i18n} = options
   appOptions.router = router
@@ -22,15 +18,9 @@ function setAppOptions(options) {
   appOptions.i18n = i18n
 }
 
-/**
- * 根据 路由配置 和 路由组件注册 解析路由
- * @param routesConfig 路由配置
- * @param routerMap 本地路由组件注册配置
- */
 function parseRoutes(routesConfig, routerMap) {
   let routes = []
   routesConfig.forEach(item => {
-    // 获取注册在 routerMap 中的 router，初始化 routeCfg
     let router = undefined, routeCfg = {}
     if (typeof item === 'string' && routerMap[item]) {
       router = routerMap[item]
@@ -43,7 +33,6 @@ function parseRoutes(routesConfig, routerMap) {
       console.warn(`can't find register for router ${routeCfg.router}, please register it in advance.`)
       router = typeof item === 'string' ? {path: item, name: item} : item
     }
-    // 从 router 和 routeCfg 解析路由
     const route = {
       path: routeCfg.path || router.path || routeCfg.router,
       name: routeCfg.name || router.name,
@@ -67,13 +56,7 @@ function parseRoutes(routesConfig, routerMap) {
   return routes
 }
 
-/**
- * 加载路由
- * @param routesConfig {RouteConfig[]} 路由配置
- */
 function loadRoutes(routesConfig) {
-  //兼容 0.6.1 以下版本
-  /*************** 兼容 version < v0.6.1 *****************/
   if (arguments.length > 0) {
     const arg0 = arguments[0]
     if (arg0.router || arg0.i18n || arg0.store) {
@@ -82,18 +65,12 @@ function loadRoutes(routesConfig) {
       console.error('方法签名 loadRoutes({router, store, i18n}, routesConfig) 的用法已过时, 请使用新的方法签名 loadRoutes(routesConfig)。')
     }
   }
-  /*************** 兼容 version < v0.6.1 *****************/
-
-  // 应用配置
   const {router, store, i18n} = appOptions
-
-  // 如果 routesConfig 有值，则更新到本地，否则从本地获取
   if (routesConfig) {
     store.commit('account/setRoutesConfig', routesConfig)
   } else {
     routesConfig = store.getters['account/routesConfig']
   }
-  // 如果开启了异步路由，则加载异步路由配置
   const asyncRoutes = store.state.setting.asyncRoutes
   if (asyncRoutes) {
     if (routesConfig && routesConfig.length > 0) {
@@ -105,9 +82,7 @@ function loadRoutes(routesConfig) {
       router.addRoutes(finalRoutes)
     }
   }
-  // 提取路由国际化数据
   mergeI18nFromRoutes(i18n, router.options.routes)
-  // 初始化Admin后台菜单数据
   const rootRoute = router.options.routes.find(item => item.path === '/')
   const menuRoutes = rootRoute && rootRoute.children
   if (menuRoutes) {
@@ -115,12 +90,6 @@ function loadRoutes(routesConfig) {
   }
 }
 
-/**
- * 合并路由
- * @param target {Route[]}
- * @param source {Route[]}
- * @returns {Route[]}
- */
 function mergeRoutes(target, source) {
   const routesMap = {}
   target.forEach(item => routesMap[item.path] = item)
@@ -128,14 +97,7 @@ function mergeRoutes(target, source) {
   return Object.values(routesMap)
 }
 
-/**
- * 深度合并路由
- * @param target {Route[]}
- * @param source {Route[]}
- * @returns {Route[]}
- */
 function deepMergeRoutes(target, source) {
-  // 映射路由数组
   const mapRoutes = routes => {
     const routesMap = {}
     routes.forEach(item => {
@@ -149,10 +111,8 @@ function deepMergeRoutes(target, source) {
   const tarMap = mapRoutes(target)
   const srcMap = mapRoutes(source)
 
-  // 合并路由
   const merge = deepMerge(tarMap, srcMap)
 
-  // 转换为 routes 数组
   const parseRoutesMap = routesMap => {
     return Object.values(routesMap).map(item => {
       if (item.children) {
@@ -166,10 +126,6 @@ function deepMergeRoutes(target, source) {
   return parseRoutesMap(merge)
 }
 
-/**
- * 格式化路由
- * @param routes 路由配置
- */
 function formatRoutes(routes) {
   routes.forEach(route => {
     const {path} = route
@@ -180,11 +136,6 @@ function formatRoutes(routes) {
   formatAuthority(routes)
 }
 
-/**
- * 格式化路由的权限配置
- * @param routes 路由
- * @param pAuthorities 父级路由权限配置集合
- */
 function formatAuthority(routes, pAuthorities = []) {
   routes.forEach(route => {
     const meta = route.meta
@@ -217,22 +168,12 @@ function formatAuthority(routes, pAuthorities = []) {
   })
 }
 
-/**
- * 从路由 path 解析 i18n key
- * @param path
- * @returns {*}
- */
 function getI18nKey(path) {
   const keys = path.split('/').filter(item => !item.startsWith(':') && item != '')
   keys.push('name')
   return keys.join('.')
 }
 
-/**
- * 加载导航守卫
- * @param guards
- * @param options
- */
 function loadGuards(guards, options) {
   const {beforeEach, afterEach} = guards
   const {router} = options

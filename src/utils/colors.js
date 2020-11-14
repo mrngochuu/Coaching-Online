@@ -5,13 +5,11 @@ const Config = require('../config')
 
 const themeMode = ADMIN.theme.mode
 
-// 获取 ant design 色系
 function getAntdColors(color, mode) {
   let options = mode && (mode == themeMode.NIGHT) ? {theme: 'dark'} : undefined
   return generate(color, options)
 }
 
-// 获取功能性颜色
 function getFunctionalColors(mode) {
   let options = mode && (mode == themeMode.NIGHT) ? {theme: 'dark'} : undefined
   let {success, warning, error} = ANTD.primary
@@ -29,7 +27,6 @@ function getFunctionalColors(mode) {
   }
 }
 
-// 获取菜单色系
 function getMenuColors(color, mode) {
   if (mode == themeMode.NIGHT) {
     return ANTD.primary.night.menuColors
@@ -40,23 +37,16 @@ function getMenuColors(color, mode) {
   }
 }
 
-// 获取主题模式切换色系
 function getThemeToggleColors(color, mode) {
-  //主色系
   const mainColors = getAntdColors(color, mode)
   const primary = mainColors[5]
-  //辅助色系，因为 antd 目前没针对夜间模式设计，所以增加辅助色系以保证夜间模式的正常切换
   const subColors = getAntdColors(primary, themeMode.LIGHT)
-  //菜单色系
   const menuColors = getMenuColors(color, mode)
-  //内容色系（包含背景色、文字颜色等）
   const themeCfg = ANTD.theme[mode]
   let contentColors = Object.keys(themeCfg)
     .map(key => themeCfg[key])
     .map(color => isHex(color) ? color : toNum3(color).join(','))
-  // 内容色去重
   contentColors = [...new Set(contentColors)]
-  // rgb 格式的主题色
   let rgbColors = [toNum3(primary).join(',')]
   let functionalColors = getFunctionalColors(mode)
   return {primary, mainColors, subColors, menuColors, contentColors, rgbColors, functionalColors}

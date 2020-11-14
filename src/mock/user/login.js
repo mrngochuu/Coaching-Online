@@ -10,13 +10,14 @@ const user = Mock.mock({
 Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/login`, 'post', ({body}) => {
   let result = {}
   const {name, password} = JSON.parse(body)
+  debugger
 
   if (name !== 'admin' || password !== '888888') {
     result.code = -1
     result.message = 'Username: admin, password: 888888'
   } else {
     result.code = 0
-    result.message = Mock.mock('@TIMEFIX').CN + '，欢迎回来'
+    result.message = 'Welcome back!'
     result.data = {}
     result.data.user = user
     result.data.token = 'Authorization:' + Math.random()

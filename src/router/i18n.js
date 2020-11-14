@@ -24,6 +24,7 @@ module.exports = {
         query: {name: '查詢表格'},
         primary: {name: '標準列表'},
         card: {name: '卡片列表'},
+        user: {name: 'User List'},
         search: {
           name: '搜索列表',
           article: {name: '文章'},

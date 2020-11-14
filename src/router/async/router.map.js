@@ -1,11 +1,9 @@
-// 视图组件
 const view = {
   tabs: () => import('@/layouts/tabs'),
   blank: () => import('@/layouts/BlankView'),
   page: () => import('@/layouts/PageView')
 }
 
-// 路由组件注册
 const routerMap = {
   login: {
     authority: '*',
@@ -14,109 +12,109 @@ const routerMap = {
   },
   root: {
     path: '/',
-    name: '首页',
+    name: 'login',
     redirect: '/login',
     component: view.tabs
   },
-  dashboard: {
-    name: 'Dashboard',
-    component: view.blank
-  },
+  // dashboard: {
+  //   name: 'Dashboard',
+  //   component: view.blank
+  // },
   workplace: {
-    name: '工作台',
+    name: 'workplace',
     component: () => import('@/pages/dashboard/workplace')
   },
   analysis: {
-    name: '分析页',
+    name: 'analysis',
     component: () => import('@/pages/dashboard/analysis')
   },
   form: {
-    name: '表单页',
+    name: 'form',
     icon: 'form',
     component: view.page
   },
   basicForm: {
     path: 'basic',
-    name: '基础表单',
+    name: 'baisc',
     component: () => import('@/pages/form/basic')
   },
   stepForm: {
     path: 'step',
-    name: '分步表单',
+    name: 'step',
     component: () => import('@/pages/form/step')
   },
   advanceForm: {
     path: 'advance',
-    name: '高级表单',
+    name: 'advance',
     component: () => import('@/pages/form/advance')
   },
   list: {
-    name: '列表页',
+    name: 'table',
     icon: 'table',
     component: view.page
   },
   queryList: {
     path: 'query',
-    name: '查询表格',
+    name: 'query',
     component: () => import('@/pages/list/QueryList')
   },
   primaryList: {
     path: 'primary',
-    name: '标准列表',
+    name: 'primary',
     component: () => import('@/pages/list/StandardList')
   },
   cardList: {
     path: 'card',
-    name: '卡片列表',
+    name: 'card',
     component: () => import('@/pages/list/CardList')
   },
   searchList: {
     path: 'search',
-    name: '搜索列表',
+    name: 'search',
     component: () => import('@/pages/list/search/SearchLayout')
   },
   article: {
-    name: '文章',
+    name: 'articleList',
     component: () => import('@/pages/list/search/ArticleList')
   },
   application: {
-    name: '应用',
+    name: 'applicationList',
     component: () => import('@/pages/list/search/ApplicationList')
   },
   project: {
-    name: '项目',
+    name: 'projectList',
     component: () => import('@/pages/list/search/ProjectList')
   },
   details: {
-    name: '详情页',
+    name: 'profile',
     icon: 'profile',
     component: view.blank
   },
   basicDetails: {
     path: 'basic',
-    name: '基础详情页',
+    name: 'basic',
     component: () => import('@/pages/detail/BasicDetail')
   },
   advanceDetails: {
     path: 'advance',
-    name: '高级详情页',
+    name: 'advance',
     component: () => import('@/pages/detail/AdvancedDetail')
   },
   result: {
-    name: '结果页',
+    name: 'check-circle-o',
     icon: 'check-circle-o',
     component: view.page
   },
   success: {
-    name: '成功',
+    name: 'success',
     component: () => import('@/pages/result/Success')
   },
   error: {
-    name: '失败',
+    name: 'error',
     component: () => import('@/pages/result/Error')
   },
   exception: {
-    name: '异常页',
+    name: 'warning',
     icon: 'warning',
     component: view.blank
   },
@@ -137,18 +135,22 @@ const routerMap = {
     component: () => import('@/pages/exception/500')
   },
   components: {
-    name: '小组件',
+    name: 'appstore-o',
     icon: 'appstore-o',
     component: view.page
   },
   taskCard: {
-    name: '任务卡片',
+    name: 'taskcard',
     component: () => import('@/pages/components/TaskCard')
   },
   palette: {
-    name: '颜色复选框',
+    name: 'palette',
     component: () => import('@/pages/components/Palette')
-  }
+  },
+  // userList: {
+  //   name: 'userList',
+  //   component: () => import('@/pages/components/UserList')
+  // }
 }
 export default routerMap
 

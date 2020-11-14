@@ -1,4 +1,3 @@
-// antd 配置
 const ANTD = {
   primary: {
     color: '#1890ff',

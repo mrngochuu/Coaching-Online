@@ -1,9 +1,9 @@
-//跨域代理前缀
-// const API_PROXY_PREFIX='/api'
-// const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_BASE_URL : API_PROXY_PREFIX
-const BASE_URL = process.env.VUE_APP_API_BASE_URL
+const API_PROXY_PREFIX='https://coaching.ductan.me'
+const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_BASE_URL : API_PROXY_PREFIX
+const BASE_URL_VUE_APP = process.env.VUE_APP_API_BASE_URL
 module.exports = {
-  LOGIN: `${BASE_URL}/login`,
-  ROUTES: `${BASE_URL}/routes`,
-  GOODS: `${BASE_URL}/goods`,
+  LOGIN: `${BASE_URL}/token/generate-token`,
+  ROUTES: `${BASE_URL_VUE_APP}/routes`,
+  GOODS: `${BASE_URL_VUE_APP}/goods`,
+  USERS: `${BASE_URL}/users/`,
 }

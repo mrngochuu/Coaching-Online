@@ -80,7 +80,6 @@ export default {
     if (this.options.length > 0 && !this.options[0].fullPath) {
       this.formatOptions(this.options, '')
     }
-    // 自定义国际化配置
     if(this.i18n && this.i18n.messages) {
       const messages = this.i18n.messages
       Object.keys(messages).forEach(key => {

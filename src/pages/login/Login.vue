@@ -16,7 +16,7 @@
               <a-input
                 autocomplete="autocomplete"
                 size="large"
-                placeholder="admin"
+                placeholder="username"
                 v-decorator="['name', {rules: [{ required: true, message: 'Please enter username.', whitespace: true}]}]"
               >
                 <a-icon slot="prefix" type="user" />
@@ -104,13 +104,23 @@ export default {
     afterLogin(res) {
       this.logging = false
       const loginRes = res.data
-      if (loginRes.code >= 0) {
-        const {user, permissions, roles} = loginRes.data
-        this.setUser(user)
-        this.setPermissions(permissions)
-        this.setRoles(roles)
-        setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
-        // 获取路由配置
+      if (loginRes.result != null) {
+        this.setUser(
+          {
+            'name': loginRes.result.email,
+            'fullname': loginRes.result.fullname,
+            'address': loginRes.result.address,
+            'phoneNumber': loginRes.result.phoneNumber,
+            'role': loginRes.result.role.id
+          }
+        )
+
+
+        // const {user, permissions, roles} = loginRes.data
+        // this.setUser(user)
+        this.setPermissions(['add', 'edit', 'delete'])
+        this.setRoles(loginRes.result.role.id)
+        setAuthorization({token: loginRes.result.token, expireAt: ((new Date()).getDate() + 5)})
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           loadRoutes(routesConfig)
@@ -118,7 +128,7 @@ export default {
           this.$message.success(loginRes.message, 3)
         })
       } else {
-        this.error = loginRes.message
+        this.error = 'Invalid username or password!'
       }
     }
   }

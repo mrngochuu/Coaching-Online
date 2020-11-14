@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookie from 'js-cookie'
 
-// 跨域认证信息 header 名
 const xsrfHeaderName = 'Authorization'
 
 axios.defaults.timeout = 5000
@@ -17,19 +16,11 @@ const AUTH_TYPE = {
   AUTH2: 'auth2',
 }
 
-// http method
 const METHOD = {
   GET: 'get',
   POST: 'post'
 }
 
-/**
- * axios请求
- * @param url 请求地址
- * @param method {METHOD} http method
- * @param params 请求参数
- * @returns {Promise<AxiosResponse<T>>}
- */
 async function request(url, method, params) {
   switch (method) {
     case METHOD.GET:
@@ -41,11 +32,6 @@ async function request(url, method, params) {
   }
 }
 
-/**
- * 设置认证信息
- * @param auth {Object}
- * @param authType {AUTH_TYPE} 认证类型，默认：{AUTH_TYPE.BEARER}
- */
 function setAuthorization(auth, authType = AUTH_TYPE.BEARER) {
   switch (authType) {
     case AUTH_TYPE.BEARER:

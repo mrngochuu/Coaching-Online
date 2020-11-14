@@ -1,9 +1,3 @@
-/**
- * 把对象按照 js配置文件的格式进行格式化
- * @param obj 格式化的对象
- * @param dep 层级，此项无需传值
- * @returns {string}
- */
 function formatConfig(obj, dep) {
   dep = dep || 1
   const LN = '\n', TAB = '  '
