@@ -1,5 +1,4 @@
 ---
-title: 开始
-lang: zh-CN
+title: Start
+lang: US
 ---
-## 开始

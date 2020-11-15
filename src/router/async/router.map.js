@@ -16,10 +16,6 @@ const routerMap = {
     redirect: '/login',
     component: view.tabs
   },
-  // dashboard: {
-  //   name: 'Dashboard',
-  //   component: view.blank
-  // },
   workplace: {
     name: 'workplace',
     component: () => import('@/pages/dashboard/workplace')
@@ -147,10 +143,14 @@ const routerMap = {
     name: 'palette',
     component: () => import('@/pages/components/Palette')
   },
-  // userList: {
-  //   name: 'userList',
-  //   component: () => import('@/pages/components/UserList')
-  // }
+  user: {
+    name: 'user',
+    component: () => import('@/pages/users/User')
+  },
+  request: {
+    name: 'request',
+    component: () => import('@/pages/requests/Request')
+  }
 }
 export default routerMap
 

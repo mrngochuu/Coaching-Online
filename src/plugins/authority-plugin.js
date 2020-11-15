@@ -1,36 +1,12 @@
-/**
- * 获取路由需要的权限
- * @param permissions
- * @param route
- * @returns {Permission}
- */
 const getRoutePermission = (permissions, route) => permissions.find(item => item.id === route.meta.authority.permission)
-/**
- * 获取路由需要的角色
- * @param roles
- * @param route
- * @returns {Array[Role]}
- */
+
 const getRouteRole = (roles, route) => {
   const requiredRoles = route.meta.authority.role
   return requiredRoles ? roles.filter(item => requiredRoles.findIndex(required => required === item.id) !== -1) : []
 }
-/**
- * 判断是否已为方法注入权限认证
- * @param method
- * @returns {boolean}
- */
+
 const hasInjected = (method) => method.toString().indexOf('//--auth-inject') !== -1
 
-/**
- * 操作权限校验
- * @param authConfig
- * @param permission
- * @param role
- * @param permissions
- * @param roles
- * @returns {boolean}
- */
 const auth = function(authConfig, permission, role, permissions, roles) {
   const {check, type} = authConfig
   if (check && typeof check === 'function') {
@@ -45,22 +21,10 @@ const auth = function(authConfig, permission, role, permissions, roles) {
   }
 }
 
-/**
- * 检查权限是否有操作权限
- * @param check 需要检查的操作权限
- * @param permission 权限
- * @returns {boolean}
- */
 const checkFromPermission = function(check, permission) {
   return permission && permission.operation && permission.operation.indexOf(check) !== -1
 }
 
-/**
- * 检查 roles 是否有操作权限
- * @param check 需要检查的操作权限
- * @param roles 角色数组
- * @returns {boolean}
- */
 const checkFromRoles = function(check, roles) {
   if (!roles) {
     return false
@@ -145,13 +109,6 @@ const AuthorityPlugin = {
         }
       },
       methods: {
-        /**
-         * 操作权限校验
-         * @param check 需要校验的操作名
-         * @param type 校验类型，通过 permission 校验，还是通过 role 校验。
-         * 如未设置，则自动识别，如匹配到当前路由 permission 则 type = permission，否则 type = role
-         * @returns {boolean} 是否校验通过
-         */
         $auth(check, type) {
           const permissions = this.$store.getters['account/permissions']
           const roles = this.$store.getters['account/roles']

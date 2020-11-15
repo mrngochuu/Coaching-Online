@@ -61,8 +61,6 @@ function loadRoutes(routesConfig) {
     const arg0 = arguments[0]
     if (arg0.router || arg0.i18n || arg0.store) {
       routesConfig = arguments[1]
-      console.error('the usage of signature loadRoutes({router, store, i18n}, routesConfig) is out of date, please use the new signature: loadRoutes(routesConfig).')
-      console.error('方法签名 loadRoutes({router, store, i18n}, routesConfig) 的用法已过时, 请使用新的方法签名 loadRoutes(routesConfig)。')
     }
   }
   const {router, store, i18n} = appOptions
