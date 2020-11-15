@@ -150,6 +150,10 @@ const routerMap = {
   request: {
     name: 'request',
     component: () => import('@/pages/requests/Request')
+  },
+  transaction: {
+    name: 'transaction',
+    component: () => import('@/pages/transactions/Transaction')
   }
 }
 export default routerMap

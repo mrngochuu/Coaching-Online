@@ -26,34 +26,34 @@ const options = {
       component: TabsView,
       redirect: '/login',
       children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          meta: {
-            icon: 'dashboard'
-          },
-          component: BlankView,
-          children: [
-            {
-              path: 'workplace',
-              name: 'workplace',
-              meta: {
-                page: {
-                  closable: false
-                }
-              },
-              component: () => import('@/pages/dashboard/workplace'),
-            },
-            {
-              path: 'analysis',
-              name: 'analysis',
-              component: () => import('@/pages/dashboard/analysis'),
-            }
-          ]
-        },
+        // {
+        //   path: 'dashboard',
+        //   name: 'Dashboard',
+        //   meta: {
+        //     icon: 'dashboard'
+        //   },
+        //   component: BlankView,
+        //   children: [
+        //     {
+        //       path: 'workplace',
+        //       name: 'workplace',
+        //       meta: {
+        //         page: {
+        //           closable: false
+        //         }
+        //       },
+        //       component: () => import('@/pages/dashboard/workplace'),
+        //     },
+        //     {
+        //       path: 'analysis',
+        //       name: 'analysis',
+        //       component: () => import('@/pages/dashboard/analysis'),
+        //     }
+        //   ]
+        // },
         {
           path: 'user',
-          name: 'Manage User',
+          name: 'Manage user',
           meta: {
             icon: 'user',
           },
@@ -61,7 +61,7 @@ const options = {
         },
         {
           path: 'request',
-          name: 'Request',
+          name: 'Manage request',
           meta: {
             icon: 'form'
           },
@@ -69,11 +69,11 @@ const options = {
         },
         {
           path: 'transaction',
-          name: 'Transaction',
+          name: 'Manage transaction',
           meta: {
             icon: 'transaction'
           },
-          component: () => import('@/pages/list/StandardList')
+          component: () => import('@/pages/transactions/Transaction')
         }
       ]
     },

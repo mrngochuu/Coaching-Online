@@ -10,7 +10,7 @@
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
         <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
-          <a-tab-pane tab="Account" key="1">
+          <a-tab-pane tab="Login" key="1">
             <a-alert type="error" :closable="true" v-show="error" :message="error" showIcon style="margin-bottom: 24px;" />
             <a-form-item>
               <a-input
@@ -32,25 +32,6 @@
               >
                 <a-icon slot="prefix" type="lock" />
               </a-input>
-            </a-form-item>
-          </a-tab-pane>
-          <a-tab-pane tab="Mobile" key="2">
-            <a-form-item>
-              <a-input size="large" placeholder="mobile number" >
-                <a-icon slot="prefix" type="mobile" />
-              </a-input>
-            </a-form-item>
-            <a-form-item>
-              <a-row :gutter="8" style="margin: 0 -4px">
-                <a-col :span="12">
-                  <a-input size="large" placeholder="captcha">
-                    <a-icon slot="prefix" type="mail" />
-                  </a-input>
-                </a-col>
-                <a-col :span="12" style="padding-left: 4px">
-                  <a-button style="width: 100%" class="captcha-button" size="large">Verification Code</a-button>
-                </a-col>
-              </a-row>
             </a-form-item>
           </a-tab-pane>
         </a-tabs>
@@ -124,8 +105,8 @@ export default {
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           loadRoutes(routesConfig)
-          this.$router.push('/dashboard/workplace')
-          this.$message.success(loginRes.message, 3)
+          this.$router.push('/user')
+          this.$message.success('Welcome back, ' + loginRes.result.fullname + '.', 3)
         })
       } else {
         this.error = 'Invalid username or password!'

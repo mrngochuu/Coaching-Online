@@ -1,16 +1,14 @@
 <template>
   <div class="request">
-    <search-form />
+    <search-form 
+      @search-user="searchUser" 
+      @search-title="searchTitle" 
+      @status-change="statusChange" 
+      @active-change="activeChange" 
+    />
     <a-card :bordered="false">
       <a-list itemLayout="vertical">
-        <a-list-item :key="index" v-for="(item, index) in requestList">
-          <a-list-item-meta>
-            <div slot="description" class="tag">
-              <a-tag style="border: 1px solid red;">Database</a-tag>
-              <a-tag style="border: 1px solid green;">IT</a-tag>
-              <a-tag style="border: 1px solid blue;">Software engineer</a-tag>
-            </div>
-          </a-list-item-meta>
+        <a-list-item :key="index" v-for="(item, index) in showList">
           <div class="content">
             <div class="detail">
               {{ item.shortDescription }}
@@ -21,10 +19,16 @@
               <em>{{ item.dateCreate }}</em>
             </div>
           </div>
-          <span slot="actions"><i class="far fa-clock" style="margin-right: 8px" aria-hidden="true"></i>{{ item.duration }}</span>
-          <span slot="actions"><i class="far fa-bell" style="margin-right: 8px"></i>{{ item.status }}</span>
-          <span v-if="item.active" slot="actions"><i class="far fa-check-circle" style="margin-right: 8px"></i><div class="active">Active</div></span>
-          <span v-else slot="actions" class="inactive"><i class="far fa-check-circle" style="margin-right: 8px"></i><div class="inactive">InActive</div></span>
+          <div class="div_action">
+            <span slot="actions"><i class="far fa-clock" style="margin-right: 8px" aria-hidden="true"></i>{{ item.duration }} minutes</span>
+          </div>
+          <div class="div_action">
+            <span slot="actions"><i class="far fa-bell" style="margin-right: 8px"></i><div :class="item.status.toLowerCase() === 'waitting' ? 'waitting' : (item.status.toLowerCase() === 'processing' ? 'processing' : 'complete')">{{ item.status | toUpperCase }}</div></span>
+          </div>
+          <div class="div_action">
+            <span v-if="item.active" slot="actions"><i class="far fa-check-circle" style="margin-right: 8px"></i><div class="active">ACTIVE</div></span>
+            <span v-else slot="actions" class="inactive"><i class="far fa-check-circle" style="margin-right: 8px"></i><div class="inactive">INACTIVE</div></span>
+          </div>
         </a-list-item>
       </a-list>
     </a-card>
@@ -36,18 +40,33 @@ import SearchForm from './../list/search/SearchForm'
 import {getRequestList} from '@/services/request'
 
 export default {
-  name: 'ProjectList',
+  name: 'Request',
   components: {SearchForm},
   data () {
     return {
       requestList: [],
+      statusValue: '',
+      activeValue: '',
+      usernameValue: '',
+      titleValue: '',
     }
   },
   mounted () {
     this.initPage()
   },
   computed: {
+    showList () {
+      if(this.statusValue === '' && this.activeValue === '' && this.usernameValue === '' && this.titleValue === '') {
+        return this.requestList
+      }
 
+      return this.requestList.filter((item) => 
+        (this.statusValue === '' || item.status.toLowerCase() === this.statusValue)
+        && (this.activeValue === '' || item.active.toString() === this.activeValue)
+        && item.student.email.includes(this.usernameValue)
+        && item.shortDescription.includes(this.titleValue)
+      )
+    }
   },
   methods: {
     initPage () {
@@ -58,7 +77,25 @@ export default {
       }).then(res => {
         this.requestList = res.data.result
       })
-    } 
+    },
+    searchUser (value) {
+      this.usernameValue = value
+    },
+    searchTitle (value) {
+      this.titleValue = value
+    },
+    statusChange (value) {
+      this.statusValue = (value === '0' ? '' : (value === '1' ? 'waitting' : (value === '2' ? 'processing' : 'complete')))
+    },
+    activeChange (value) {
+      this.activeValue = (value === '0' ? '' : (value === '1' ? 'true' : 'false'))
+    },
+  },
+  filters: {
+    toUpperCase (text) {
+      if(text !== null || text !== '')
+      return text.toUpperCase()
+    }
   }
 }
 </script>
@@ -104,21 +141,49 @@ export default {
         font-weight: bold;
       } 
     }
-    .active {
-      background-color: green;
+    .div_action {
       display: inline;
-      border-radius: 5px;
-      padding: 2px 20px;
-      font-size: 13px;
-      color: white !important;
-    }
-    .inactive {
-      background-color: red;
-      display: inline;
-      border-radius: 5px;
-      padding: 2px 20px;
-      font-size: 13px;
-      color: white !important;
+      padding-right: 30px;
+      .active {
+        background-color: green;
+        display: inline;
+        border-radius: 5px;
+        padding: 2px 20px;
+        font-size: 13px;
+        color: white !important;
+      }
+      .inactive {
+        background-color: red;
+        display: inline;
+        border-radius: 5px;
+        padding: 2px 20px;
+        font-size: 13px;
+        color: white !important;
+      }
+      .watting {
+        background-color: #edf285;
+        display: inline;
+        border-radius: 5px;
+        padding: 2px 30px;
+        font-size: 13px;
+        color: white !important;
+      }
+      .processing {
+        background-color: #41aea9;
+        display: inline;
+        border-radius: 5px;
+        padding: 2px 20px;
+        font-size: 13px;
+        color: white !important;
+      }
+      .complete {
+        background-color: #ec524b;
+        display: inline;
+        border-radius: 5px;
+        padding: 2px 26px;
+        font-size: 13px;
+        color: white !important;
+      }
     }
   }
 </style>

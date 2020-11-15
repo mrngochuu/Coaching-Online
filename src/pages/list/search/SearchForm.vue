@@ -1,64 +1,59 @@
 <template>
   <a-card :bordered="false" class="search-form">
     <a-form :form="form">
-      <form-row label="所属类目">
-        <a-form-item>
-          <tag-select>
-            <tag-select-option>类目一</tag-select-option>
-            <tag-select-option>类目二</tag-select-option>
-            <tag-select-option>类目三</tag-select-option>
-            <tag-select-option>类目四</tag-select-option>
-            <tag-select-option>类目五</tag-select-option>
-            <tag-select-option>类目六</tag-select-option>
-            <tag-select-option>类目七</tag-select-option>
-            <tag-select-option>类目八</tag-select-option>
-            <tag-select-option>类目九</tag-select-option>
-            <tag-select-option>类目十</tag-select-option>
-            <tag-select-option>类目十一</tag-select-option>
-            <tag-select-option>类目十二</tag-select-option>
-            <tag-select-option>类目十三</tag-select-option>
-            <tag-select-option>类目十四</tag-select-option>
-            <tag-select-option>类目十五</tag-select-option>
-            <tag-select-option>类目十六</tag-select-option>
-          </tag-select>
-        </a-form-item>
-      </form-row>
-      <form-row label="owner" style="padding-bottom: 11px">
-        <a-form-item>
-          <a-select
-            mode="multiple" style="max-width: 286px"
-            v-decorator="['owner', {initialValue: ['1', '2']}]"
-          >
-            <a-select-option value="3">我自己</a-select-option>
-            <a-select-option value="1">吴家豪</a-select-option>
-            <a-select-option value="2">周星星</a-select-option>
-            <a-select-option value="4">李宁</a-select-option>
-          </a-select>
-        </a-form-item>
-        <a @click="lookMyself">只看自己的</a>
-      </form-row>
-      <form-row label="其他选项">
+      <form-row label="User" style="padding-bottom: 11px">
         <a-row>
-          <a-col :span="8">
-            <a-form-item label="活跃用户" :labelCol="{span: 6}" :wrapperCol="{span: 12}">
-              <a-select placeholder="不限">
-                <a-select-option value="1">周星星</a-select-option>
+          <a-col :offset="1" :span="8" class="components-input-demo-presuffix">
+            <a-form-item :wrapperCol="{span: 24}">
+              <a-input ref="userNameInput" v-model="userName" placeholder="Username" @change="searchUser">
+                <a-icon slot="prefix" type="user" />
+              </a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :offset="1" :span="8" class="components-input-demo-presuffix">
+            <a-form-item :wrapperCol="{span: 24}">
+              <a-input ref="TitleInput" v-model="title" placeholder="Title" @change="searchTitle">
+                <a-icon slot="prefix" type="file-search" />
+              </a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :offset="1" :span="3">
+            <a-form-item :wrapperCol="{span: 4}">
+              <a-button @click="lookOption">Optional</a-button>
+            </a-form-item>
+          </a-col>
+          <!-- <a-col :span="4">
+            <a-form-item :wrapperCol="{span: 4}">
+              <a-button @click="search"><i class="fas fa-search" style="margin-right: 8px;"></i>Search</a-button>
+            </a-form-item>
+          </a-col> -->
+        </a-row>
+      </form-row>
+      <form-row label="Options" v-show="optionFlg">
+        <a-row>
+          <a-col :span="6" style="margin-left: 23px;">
+            <a-form-item :wrapperCol="{span: 24}">
+              <a-select placeholder="Status" v-model="status">
+                <a-select-option value="0">All status</a-select-option>
+                <a-select-option value="1">Watting</a-select-option>
+                <a-select-option value="2">Processing</a-select-option>
+                <a-select-option value="3">Complete</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
-            <a-form-item
-              label="好评度"
-              :labelCol="{span: 6}"
-              :wrapperCol="{span: 12}"
+          <a-col :offset="1" :span="6">
+            <a-form-item :wrapperCol="{span: 24}"
             >
-              <a-select placeholder="不限">
-                <a-select-option value="1">优秀</a-select-option>
+              <a-select placeholder="Active" v-model="active">
+                <a-select-option value="0">All active</a-select-option>
+                <a-select-option value="1">Active</a-select-option>
+                <a-select-option value="2">Inactive</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
         </a-row>
       </form-row>
+        
     </a-form>
   </a-card>
 </template>
@@ -71,17 +66,34 @@ const TagSelectOption = TagSelect.Option
 
 export default {
   name: 'SearchForm',
-  components: {FormRow, TagSelectOption, TagSelect},
+  components: {FormRow},
   data() {
     return {
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      optionFlg: false,
+      status: '0',
+      active: '0',
+      userName: '',
+      title: '',
+    }
+  },
+  watch: {
+    status () {
+      this.$emit('status-change', this.status)
+    },
+    active () {
+      this.$emit('active-change', this.active)
     }
   },
   methods: {
-    lookMyself () {
-      this.form.setFieldsValue({
-        owner: '3'
-      })
+    lookOption () {
+      this.optionFlg = !this.optionFlg
+    },
+    searchUser () {
+      this.$emit('search-user', this.userName)
+    },
+    searchTitle () {
+      this.$emit('search-title', this.title)
     }
   }
 }
