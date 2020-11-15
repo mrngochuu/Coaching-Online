@@ -1,5 +1,13 @@
 <template>
   <div class="request">
+    <a-card :bordered="false" style="margin-bottom: 24px;">
+      <div style="display: flex; flex-wrap: wrap">
+          <head-info title="Total request" :content="countTotalRequest" :bordered="true"/>
+          <head-info title="Watting" :content="countTotalWatting" :bordered="true"/>
+          <head-info title="Processing" :content="countTotalProcessing" :bordered="true"/>
+          <head-info title="Complete" :content="countTotalComplete" />
+      </div>
+    </a-card>
     <search-form 
       @search-user="searchUser" 
       @search-title="searchTitle" 
@@ -7,7 +15,7 @@
       @active-change="activeChange" 
     />
     <a-card :bordered="false">
-      <a-list itemLayout="vertical">
+      <a-list itemLayout="vertical" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
         <a-list-item :key="index" v-for="(item, index) in showList">
           <div class="content">
             <div class="detail">
@@ -36,12 +44,13 @@
 </template>
 
 <script>
+import HeadInfo from '../../components/tool/HeadInfo'
 import SearchForm from './../list/search/SearchForm'
 import {getRequestList} from '@/services/request'
 
 export default {
   name: 'Request',
-  components: {SearchForm},
+  components: {SearchForm, HeadInfo},
   data () {
     return {
       requestList: [],
@@ -55,6 +64,18 @@ export default {
     this.initPage()
   },
   computed: {
+    countTotalRequest () {
+      return this.requestList.length
+    },
+    countTotalWatting () {
+      return this.requestList.filter(item => item.status.toLowerCase() === 'waitting').length
+    },
+    countTotalProcessing () {
+      return this.requestList.filter(item => item.status.toLowerCase() === 'processing').length
+    },
+    countTotalComplete () {
+      return this.requestList.filter(item => item.status.toLowerCase() === 'complete').length
+    },
     showList () {
       if(this.statusValue === '' && this.activeValue === '' && this.usernameValue === '' && this.titleValue === '') {
         return this.requestList

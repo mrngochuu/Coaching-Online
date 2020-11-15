@@ -15,8 +15,8 @@ module.exports = {
   weekMode: false,                     
   multiPage: false,                     
   hideSetting: false,                   
-  systemName: 'Coaching Online',        
-  copyright: 'Coaching Online',     
+  systemName: 'Problem Resolving',        
+  copyright: 'Problem Resolving',     
   asyncRoutes: false,                   
   showPageTitle: true,                  
   filterMenu: true,                    
@@ -26,7 +26,7 @@ module.exports = {
     direction: 'left'                   
   },
   footerLinks: [                        
-    {link: '#', name: 'Coaching Online'},
+    {link: '#', name: 'Problem Resolving'},
     {link: '#', icon: 'github'},
     {link: '#', name: 'Developer team'}
   ],

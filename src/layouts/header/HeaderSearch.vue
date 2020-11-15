@@ -6,7 +6,7 @@
       :getPopupContainer="e => {return e.parentNode || document.body}"
       :dataSource="dataSource"
       :class="['search-input', searchMode ? 'enter' : 'leave']"
-      placeholder="站内搜索"
+      placeholder="Site Search"
       @blur="leaveSearchMode"
     >
     </a-auto-complete>
@@ -18,7 +18,7 @@ export default {
   name: 'HeaderSearch',
   data () {
     return {
-      dataSource: ['选项一', '选项二'],
+      dataSource: ['Option one', 'Option two'],
       searchMode: false
     }
   },
